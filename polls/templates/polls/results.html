@@ -6,13 +6,40 @@
 <body>
     <h1>{{ question.question_text }}</h1>
 
-    <ul>
-    {% for choice in choices_with_votes %}
-        <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+    <ul id="results-list">
+    {% for choice in question.choice_set.all %}
+        <li id="choice-{{ choice.id }}">
+            {{ choice.choice_text }} -- <span class="vote-count">0</span> vote<span class="plural">s</span>
+        </li>
     {% endfor %}
     </ul>
 
     <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
     <a href="{% url 'polls:index' %}">Back to polls</a>
+
+    <script>
+        // Load and display vote counts from localStorage
+        function loadVotes() {
+            const votes = JSON.parse(localStorage.getItem('pollVotes') || '{}');
+            {% for choice in question.choice_set.all %}
+                const count{{ choice.id }} = votes['choice_{{ choice.id }}'] || 0;
+                document.querySelector('#choice-{{ choice.id }} .vote-count').textContent = count{{ choice.id }};
+                document.querySelector('#choice-{{ choice.id }} .plural').textContent = count{{ choice.id }} === 1 ? '' : 's';
+            {% endfor %}
+        }
+
+        // Check if user just voted and increment count
+        const urlParams = new URLSearchParams(window.location.search);
+        const votedChoice = urlParams.get('voted');
+        if (votedChoice) {
+            const votes = JSON.parse(localStorage.getItem('pollVotes') || '{}');
+            votes['choice_' + votedChoice] = (votes['choice_' + votedChoice] || 0) + 1;
+            localStorage.setItem('pollVotes', JSON.stringify(votes));
+            // Remove the parameter from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        loadVotes();
+    </script>
 </body>
 </html>
