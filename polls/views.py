@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Question, Choice
+import json
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -15,8 +16,12 @@ def detail(request, question_id):
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     
-    # Get vote counts from session storage
-    votes = request.session.get('votes', {})
+    # Get vote counts from cookies
+    votes_cookie = request.COOKIES.get('poll_votes', '{}')
+    try:
+        votes = json.loads(votes_cookie)
+    except:
+        votes = {}
     
     # Apply vote counts to choices
     for choice in question.choice_set.all():
@@ -35,11 +40,18 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        # Store vote in session
-        votes = request.session.get('votes', {})
+        # Get current votes from cookie
+        votes_cookie = request.COOKIES.get('poll_votes', '{}')
+        try:
+            votes = json.loads(votes_cookie)
+        except:
+            votes = {}
+        
+        # Increment vote count
         choice_key = f"choice_{selected_choice.id}"
         votes[choice_key] = votes.get(choice_key, 0) + 1
-        request.session['votes'] = votes
-        request.session.modified = True
         
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        # Create response and set cookie
+        response = HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        response.set_cookie('poll_votes', json.dumps(votes), max_age=86400)  # 24 hours
+        return response
