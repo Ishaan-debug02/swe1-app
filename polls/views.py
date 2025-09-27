@@ -15,24 +15,32 @@ def detail(request, question_id):
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     
-    # Hardcode vote counts for demonstration
+    # Create choices with hardcoded vote counts
+    choices_with_votes = []
     choices = list(question.choice_set.all())
-    if len(choices) >= 4:
-        choices[0].votes = 15
-        choices[1].votes = 23
-        choices[2].votes = 8
-        choices[3].votes = 12
-    elif len(choices) >= 3:
-        choices[0].votes = 18
-        choices[1].votes = 11
-        choices[2].votes = 6
-    elif len(choices) >= 2:
-        choices[0].votes = 20
-        choices[1].votes = 14
-    elif len(choices) >= 1:
-        choices[0].votes = 25
     
-    return render(request, 'polls/results.html', {'question': question})
+    # Predefined vote counts for each question
+    vote_data = {
+        1: [25, 18, 12, 8],   # Programming language question
+        2: [20, 15, 10, 7],   # Web framework question  
+        3: [22, 16, 14, 6]    # Operating system question
+    }
+    
+    default_votes = [15, 12, 8, 5]
+    votes = vote_data.get(question_id, default_votes)
+    
+    for i, choice in enumerate(choices):
+        choice_data = {
+            'choice_text': choice.choice_text,
+            'votes': votes[i] if i < len(votes) else 3
+        }
+        choices_with_votes.append(choice_data)
+    
+    context = {
+        'question': question,
+        'choices_with_votes': choices_with_votes
+    }
+    return render(request, 'polls/results.html', context)
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
