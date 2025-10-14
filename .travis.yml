@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.13"
+  - "3.12"
 
 install:
   - pip install -r requirements.txt
@@ -28,3 +28,4 @@ deploy:
   bucket_name: "elasticbeanstalk-us-east-1-697227439688"
   on:
     branch: main
+  skip_cleanup: true
