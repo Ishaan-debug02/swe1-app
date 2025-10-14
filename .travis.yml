@@ -1,87 +1,30 @@
 language: python
 python:
-  - "3.12"
-
-os: linux
-dist: jammy
-
-cache: pip
-
-env:
-  global:
-    # Set these in Travis repository settings (do NOT commit secrets)
-    - DJANGO_SETTINGS_MODULE=mysite.settings
-    # COVERALLS_REPO_TOKEN should be set in Travis settings for private repos
+  - "3.13"
 
 install:
-  - pip install --upgrade pip
   - pip install -r requirements.txt
 
 before_script:
+  - pip install black flake8 coverage coveralls
+
+script:
   - black --check .
   - flake8 .
-
-script:
-  - coverage run --source=. manage.py test
-  - coverage report -m
-
-after_success:
-  - coveralls || true
-
-deploy:
-  provider: elasticbeanstalk
-  edge: true
-  access_key_id: "$AWS_ACCESS_KEY_ID"
-  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-  region: "$AWS_REGION"           # e.g. us-east-1
-  app: "$EB_APP_NAME"             # e.g. swe1-app
-  env: "$EB_ENV_NAME"             # e.g. swe1-app-env
-  bucket_name: "$EB_S3_BUCKET"    # S3 bucket used by EB
-  on:
-    branch: main
-
-branches:
-  only:
-    - main
-    - staging
-    - develop
-
-notifications:
-  email: false
-
-language: python
-
-python:
-  - "3.12"
-
-cache: pip
-
-env:
-  global:
-    - DJANGO_SETTINGS_MODULE=mysite.settings
-    # Set the following in Travis repository settings (not in code):
-    # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, COVERALLS_REPO_TOKEN
-
-before_install:
-  - pip install --upgrade pip
-
-install:
-  - pip install -r requirements.txt
-
-script:
-  - black --check .
-  - flake8
-  - coverage run manage.py test
-  - coverage report -m
+  - python manage.py test
+  - coverage run --source='.' manage.py test
+  - coverage report
 
 after_success:
   - coveralls
 
 deploy:
   provider: elasticbeanstalk
-  region: us-east-1
-  app: swe1-app
-  env: swe1-app-dev
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  region: "us-east-1"
+  app: "swe1-app"
+  env: "swe1-app-dev"
+  bucket_name: "elasticbeanstalk-us-east-1-697227439688"
   on:
     branch: main
-
