@@ -1,25 +1,15 @@
 [run]
-branch = True
 source = .
 omit =
-    django-env/*
-    venv/*
-    env/*
-    .venv/*
+    */migrations/*
+    */tests.py
+    manage.py
+    setup.py
 
 [report]
-show_missing = True
-skip_covered = True
 exclude_lines =
     pragma: no cover
-    if __name__ == .__main__.
-[run]
-source = .
-branch = True
-omit =
-  django-env/*
-
-[report]
-show_missing = True
-skip_empty = True
-
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
