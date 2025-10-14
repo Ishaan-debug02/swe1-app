@@ -1,0 +1,15 @@
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+include = "\.(py|pyi)$"
+exclude = """
+/(
+    \.git
+  | \.mypy_cache
+  | \.venv
+  | build
+  | dist
+  | django-env
+)
+"""
+

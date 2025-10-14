@@ -1,0 +1,25 @@
+[run]
+branch = True
+source = .
+omit =
+    django-env/*
+    venv/*
+    env/*
+    .venv/*
+
+[report]
+show_missing = True
+skip_covered = True
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.
+[run]
+source = .
+branch = True
+omit =
+  django-env/*
+
+[report]
+show_missing = True
+skip_empty = True
+
