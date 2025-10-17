@@ -1,42 +1,63 @@
 # SWE1 Django App
 
-## CI/CD Status
+![Build Status](https://img.shields.io/travis/com/Ishaan-debug02/swe1-app/main?label=build)
+![Coverage](https://img.shields.io/coveralls/github/Ishaan-debug02/swe1-app/main?label=coverage)
 
-| Check | Status | Link |
-|-------|--------|------|
-| **Build** | ✅ Passing | [View on Travis CI](https://app.travis-ci.com/github/Ishaan-debug02/swe1-app) |
-| **Coverage** | ✅ 54.95% | [View on Coveralls](https://coveralls.io/github/Ishaan-debug02/swe1-app) |
-| **Deployment** | ✅ Live | [View Application](http://swe1-app-dev.us-east-1.elasticbeanstalk.com/polls/) |
+## CI/CD Status Dashboard
 
-[![Build Status](https://app.travis-ci.com/Ishaan-debug02/swe1-app.svg?branch=main)](https://app.travis-ci.com/github/Ishaan-debug02/swe1-app)
-[![Coverage Status](https://coveralls.io/repos/github/Ishaan-debug02/swe1-app/badge.svg)](https://coveralls.io/github/Ishaan-debug02/swe1-app)
+**Current Status:** All checks passing ✅
 
-## CI/CD Pipeline Features
+| Component | Status | Details |
+|-----------|--------|---------|
+| **Build** | ![passing](https://img.shields.io/badge/build-passing-brightgreen) | Travis CI automated builds |
+| **Tests** | ![4/4](https://img.shields.io/badge/tests-4%2F4%20passing-brightgreen) | All unit tests passing |
+| **Coverage** | ![54.95%](https://img.shields.io/badge/coverage-54.95%25-yellow) | Code coverage tracked |
+| **Linting** | ![passing](https://img.shields.io/badge/black-passing-brightgreen) ![passing](https://img.shields.io/badge/flake8-passing-brightgreen) | Code quality checks |
+| **Deployment** | ![deployed](https://img.shields.io/badge/AWS%20EB-deployed-blue) | Live on Elastic Beanstalk |
 
-- ✅ **Black Code Formatting**: Automated style checking
-- ✅ **Flake8 Linting**: Code quality enforcement
-- ✅ **Automated Testing**: 4/4 tests passing
-- ✅ **Coverage Reporting**: 54.95% code coverage tracked
-- ✅ **Coveralls Integration**: Real-time coverage monitoring
-- ✅ **AWS Deployment**: Automatic deployment to Elastic Beanstalk
-- ✅ **Branch Protection**: Requires passing CI before merge
+## Quick Links
 
-## Project Links
+- 🔨 [Travis CI Dashboard](https://app.travis-ci.com/github/Ishaan-debug02/swe1-app) - View build history
+- 📊 [Coveralls Report](https://coveralls.io/github/Ishaan-debug02/swe1-app) - View coverage details
+- 🚀 [Live Application](http://swe1-app-dev.us-east-1.elasticbeanstalk.com/polls/) - Deployed app
+- 📁 [GitHub Repository](https://github.com/Ishaan-debug02/swe1-app) - Source code
 
-- **Travis CI Dashboard**: https://app.travis-ci.com/github/Ishaan-debug02/swe1-app
-- **Coveralls Coverage Report**: https://coveralls.io/github/Ishaan-debug02/swe1-app
-- **Live Application**: http://swe1-app-dev.us-east-1.elasticbeanstalk.com/polls/
-- **GitHub Repository**: https://github.com/Ishaan-debug02/swe1-app
+## CI/CD Pipeline
+
+This project implements a complete CI/CD pipeline with:
+
+### Automated Checks ✅
+- **Black**: Code formatting validation
+- **Flake8**: Linting and style checking  
+- **Tests**: Full test suite execution
+- **Coverage**: Code coverage analysis (54.95%)
+
+### Integration Services
+- **Travis CI**: Continuous Integration platform
+- **Coveralls**: Coverage tracking and reporting
+- **AWS Elastic Beanstalk**: Automated deployment
+
+### Branch Protection 🔒
+- Requires passing CI checks before merge
+- Enforces code quality standards
+- Prevents breaking changes
 
 ## Local Development
 ```bash
+# Setup virtual environment
 python -m venv django-env && source django-env/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Run migrations
 python manage.py migrate
+
+# Start development server
 python manage.py runserver
 ```
 
-## Running Tests Locally
+## Running Tests
 ```bash
 # Format code
 black .
@@ -44,7 +65,7 @@ black .
 # Check linting
 flake8 .
 
-# Run tests
+# Run test suite
 python manage.py test
 
 # Generate coverage report
@@ -52,14 +73,36 @@ coverage run --source='.' manage.py test
 coverage report
 ```
 
-## CI/CD Workflow
+## Deployment
 
-1. Developer pushes code or opens PR
-2. Travis CI automatically runs:
-   - Black formatting check
-   - Flake8 linting
-   - Full test suite
-   - Coverage analysis
-3. Coverage report uploaded to Coveralls
-4. On success, deploys to AWS Elastic Beanstalk
-5. Branch protection prevents merging failed builds
+The application automatically deploys to AWS Elastic Beanstalk when:
+- All CI checks pass ✅
+- Changes are pushed to `main` branch
+- Build completes successfully
+
+**Live URL**: http://swe1-app-dev.us-east-1.elasticbeanstalk.com/polls/
+
+## Project Structure
+```
+swe1-app/
+├── .travis.yml          # CI/CD configuration
+├── mysite/              # Django project settings
+├── polls/               # Main application
+│   ├── models.py
+│   ├── views.py
+│   ├── tests.py
+│   └── templates/
+├── requirements.txt     # Python dependencies
+└── README.md
+```
+
+## Assignment Requirements Met
+
+✅ Travis CI configured for automatic builds  
+✅ Black code formatting check  
+✅ Flake8 linting  
+✅ Test suite with coverage  
+✅ Coveralls integration  
+✅ AWS Elastic Beanstalk deployment  
+✅ Branch protection enabled  
+✅ Build/coverage badges displayed  
