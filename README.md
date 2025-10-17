@@ -1,6 +1,6 @@
 # SWE1 Django App
 
-[![Build Status](https://app.travis-ci.com/USER/swe1-app.svg?branch=main)](https://app.travis-ci.com/github/USER/swe1-app)
+[![Build Status][(https://app.travis-ci.com/USER/swe1-app.svg?branch=main)](https://app.travis-ci.com/github/USER/swe1-app)](https://app.travis-ci.com/Ishaan-debug02/swe1-app.svg?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/USER/swe1-app/badge.svg?branch=main)](https://coveralls.io/github/USER/swe1-app?branch=main)
 
 Replace `USER` with your GitHub username.
