@@ -36,3 +36,4 @@ Testing Travis CI integration
 
 ## CI/CD Pipeline Active
 # Testing AWS deployment
+# Coveralls enabled
